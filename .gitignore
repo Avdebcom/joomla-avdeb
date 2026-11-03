@@ -1,0 +1,4 @@
+dist/
+.smoke/
+*.log
+.DS_Store

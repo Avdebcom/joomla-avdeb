@@ -1,0 +1,977 @@
+/*!
+ * AVDEB Products for Joomla — https://avdeb.com/developers/#joomla
+ * Card styles shared with emdash-plugin-avdeb (Embed.astro). Styling selectors are :where()-wrapped
+ * (zero specificity) so template CSS wins; a few layout-critical resets at the end use real class
+ * specificity so article styles (`.com-content-article img`, link underlines) can't crop or restyle cards.
+ *
+ * Theme "site" (default) inherits the template's text colour and font and takes the accent from the
+ * template's primary colour: Cassiopeia's --cassiopeia-color-primary, else Bootstrap's --bs-primary.
+ */
+/* ── Tokens ─────────────────────────────────────────────────────────────── */
+:where(.avdeb) {
+    --avdeb-accent: #3b6548;
+    --avdeb-accent-contrast: #fff;
+    --avdeb-accent-text: var(--avdeb-accent);
+    --avdeb-surface: transparent;
+    --avdeb-card-bg: rgba(127, 127, 127, 0.045);
+    --avdeb-border: rgba(127, 127, 127, 0.22);
+    --avdeb-border-soft: rgba(127, 127, 127, 0.12);
+    --avdeb-media-bg: rgba(127, 127, 127, 0.08);
+    --avdeb-muted-opacity: 0.72;
+    --avdeb-badge-bg: rgba(255, 255, 255, 0.92);
+    --avdeb-badge-text: #141414;
+    --avdeb-shadow:
+        0 1px 2px rgba(15, 23, 15, 0.05),
+        0 10px 28px -14px rgba(15, 23, 15, 0.25);
+    --avdeb-shadow-hover:
+        0 2px 6px rgba(15, 23, 15, 0.06),
+        0 22px 44px -18px rgba(15, 23, 15, 0.35);
+    --avdeb-gap: 1rem;
+    --avdeb-pad: 0.9rem 1rem 1rem;
+    --avdeb-font-title: inherit;
+    --avdeb-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --avdeb-cols: 3;
+    --avdeb-radius: 16px;
+    --avdeb-ratio: 1 / 1;
+    --avdeb-heading-size: clamp(1.15rem, 1rem + 0.7vw, 1.55rem);
+    --avdeb-title-size: 1rem;
+    --avdeb-title-leading: 1.35;
+    --avdeb-items-margin: 0;
+    --avdeb-items-pad: 0;
+
+    container: avdeb / inline-size;
+    margin-block: 2em;
+    color: inherit;
+    font: inherit;
+}
+
+@supports (color: color-mix(in srgb, red 50%, blue)) {
+    :where(.avdeb) {
+        --avdeb-card-bg: color-mix(in srgb, currentColor 3.5%, transparent);
+        --avdeb-border: color-mix(in srgb, currentColor 16%, transparent);
+        --avdeb-border-soft: color-mix(
+            in srgb,
+            currentColor 8%,
+            transparent
+        );
+        --avdeb-media-bg: color-mix(in srgb, currentColor 6%, transparent);
+        --avdeb-muted: color-mix(in srgb, currentColor 64%, transparent);
+        --avdeb-muted-opacity: 1;
+        /* Readable on any background: pulls the accent toward the site's text colour. */
+        --avdeb-accent-text: color-mix(
+            in srgb,
+            var(--avdeb-accent) 70%,
+            currentColor
+        );
+    }
+}
+
+:where(.avdeb[data-theme="light"]),
+:where(.avdeb[data-theme="auto"]) {
+    --avdeb-surface: #f4f6f3;
+    --avdeb-card-bg: #fff;
+    --avdeb-border: #dde3dc;
+    --avdeb-border-soft: #e8ece7;
+    --avdeb-media-bg: #eceee9;
+    --avdeb-muted: #5d665e;
+    --avdeb-muted-opacity: 1;
+    color: #19201a;
+}
+
+:where(.avdeb[data-theme="dark"]) {
+    --avdeb-surface: #0f1310;
+    --avdeb-card-bg: #181d19;
+    --avdeb-border: #2b332c;
+    --avdeb-border-soft: #232a24;
+    --avdeb-media-bg: #212822;
+    --avdeb-muted: #a3ada4;
+    --avdeb-muted-opacity: 1;
+    --avdeb-badge-bg: rgba(15, 19, 16, 0.86);
+    --avdeb-badge-text: #f2f4f2;
+    --avdeb-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.4), 0 14px 32px -16px rgba(0, 0, 0, 0.7);
+    --avdeb-shadow-hover:
+        0 2px 6px rgba(0, 0, 0, 0.45), 0 24px 48px -18px rgba(0, 0, 0, 0.85);
+    color: #eef1ee;
+}
+
+@media (prefers-color-scheme: dark) {
+    :where(.avdeb[data-theme="auto"]) {
+        --avdeb-surface: #0f1310;
+        --avdeb-card-bg: #181d19;
+        --avdeb-border: #2b332c;
+        --avdeb-border-soft: #232a24;
+        --avdeb-media-bg: #212822;
+        --avdeb-muted: #a3ada4;
+        --avdeb-badge-bg: rgba(15, 19, 16, 0.86);
+        --avdeb-badge-text: #f2f4f2;
+        --avdeb-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.4),
+            0 14px 32px -16px rgba(0, 0, 0, 0.7);
+        --avdeb-shadow-hover:
+            0 2px 6px rgba(0, 0, 0, 0.45),
+            0 24px 48px -18px rgba(0, 0, 0, 0.85);
+        color: #eef1ee;
+    }
+}
+
+@supports (color: color-mix(in srgb, red 50%, blue)) {
+    :where(.avdeb[data-theme="dark"]) {
+        --avdeb-accent-text: color-mix(
+            in srgb,
+            var(--avdeb-accent) 55%,
+            #fff
+        );
+    }
+    @media (prefers-color-scheme: dark) {
+        :where(.avdeb[data-theme="auto"]) {
+            --avdeb-accent-text: color-mix(
+                in srgb,
+                var(--avdeb-accent) 55%,
+                #fff
+            );
+        }
+    }
+}
+
+:where(
+    .avdeb[data-theme="light"],
+    .avdeb[data-theme="dark"],
+    .avdeb[data-theme="auto"]
+) {
+    background: var(--avdeb-surface);
+    padding: clamp(1rem, 2.5vw, 1.75rem);
+    border-radius: calc(var(--avdeb-radius) + 6px);
+}
+
+:where(.avdeb) :where(*, *::before, *::after) {
+    box-sizing: border-box;
+}
+
+:where(.avdeb-sr) {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+:where(.avdeb__header) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    margin-block-end: 1.1rem;
+}
+
+:where(.avdeb__heading) {
+    font-family: var(--avdeb-font-title);
+    letter-spacing: -0.01em;
+}
+
+:where(.avdeb__intro) {
+    max-inline-size: 62ch;
+    color: var(--avdeb-muted, currentColor);
+    opacity: var(--avdeb-muted-opacity);
+    line-height: 1.55;
+}
+
+:where(.avdeb__tools) {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-inline-start: auto;
+}
+
+:where(.avdeb__all) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    font-size: 0.95em;
+    white-space: nowrap;
+    text-underline-offset: 0.2em;
+}
+
+:where(.avdeb__all:hover) {
+    --avdeb-link-deco: underline;
+}
+
+:where(.avdeb__all svg, .avdeb-card__cta svg, .avdeb-btn svg) {
+    flex: none;
+    transition: transform 0.25s var(--avdeb-ease);
+}
+
+:where(.avdeb__all:hover svg) {
+    transform: translateX(2px);
+}
+
+:where(.avdeb__nav) {
+    display: flex;
+    gap: 0.4rem;
+}
+
+:where(.avdeb__navbtn) {
+    display: grid;
+    place-items: center;
+    inline-size: 2.4rem;
+    block-size: 2.4rem;
+    padding: 0;
+    border: 1px solid var(--avdeb-border);
+    border-radius: 999px;
+    background: var(--avdeb-card-bg);
+    color: inherit;
+    cursor: pointer;
+    transition:
+        border-color 0.2s,
+        color 0.2s,
+        opacity 0.2s,
+        transform 0.2s var(--avdeb-ease);
+}
+
+:where(.avdeb__navbtn:hover:not(:disabled)) {
+    border-color: var(--avdeb-accent);
+    color: var(--avdeb-accent-text);
+}
+
+:where(.avdeb__navbtn:active:not(:disabled)) {
+    transform: scale(0.94);
+}
+
+:where(.avdeb__navbtn:disabled) {
+    opacity: 0.35;
+    cursor: default;
+}
+
+:where(.avdeb__navbtn[hidden]) {
+    display: none;
+}
+
+:where(.avdeb:dir(rtl))
+    :where(.avdeb__navbtn svg, .avdeb__all svg, .avdeb-card__cta svg) {
+    scale: -1 1;
+}
+
+/* ── Collection layouts ─────────────────────────────────────────────────── */
+:where(.avdeb__items) {
+    display: grid;
+    grid-template-columns: repeat(var(--avdeb-cols), minmax(0, 1fr));
+    gap: var(--avdeb-gap);
+}
+
+:where(.avdeb__item) {
+    container: avdeb-item / inline-size;
+    display: flex;
+    min-inline-size: 0;
+}
+
+@container avdeb (max-width: 46rem) {
+    :where(.avdeb--grid, .avdeb--spotlight) :where(.avdeb__items) {
+        grid-template-columns: repeat(
+            min(var(--avdeb-cols), 3),
+            minmax(0, 1fr)
+        );
+    }
+}
+
+@container avdeb (max-width: 34rem) {
+    :where(.avdeb--grid, .avdeb--spotlight) :where(.avdeb__items) {
+        grid-template-columns: repeat(
+            min(var(--avdeb-cols), 2),
+            minmax(0, 1fr)
+        );
+    }
+}
+
+@container avdeb (max-width: 19rem) {
+    :where(.avdeb--grid, .avdeb--spotlight) :where(.avdeb__items) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@supports not (container-type: inline-size) {
+    @media (max-width: 640px) {
+        :where(.avdeb--grid, .avdeb--spotlight) :where(.avdeb__items) {
+            grid-template-columns: repeat(
+                min(var(--avdeb-cols), 2),
+                minmax(0, 1fr)
+            );
+        }
+    }
+}
+
+/* Carousel: native scroll-snap; arrows appear once the script runs and there's overflow. */
+:where(.avdeb--carousel) :where(.avdeb__items) {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: calc(
+        (100% - (var(--avdeb-cols) - 1) * var(--avdeb-gap)) /
+            var(--avdeb-cols)
+    );
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    --avdeb-items-pad: 0.35rem 0.35rem 1.25rem;
+    --avdeb-items-margin: -0.35rem -0.35rem -1.25rem;
+    scroll-padding-inline: 0.35rem;
+}
+
+:where(.avdeb--carousel) :where(.avdeb__items)::-webkit-scrollbar {
+    display: none;
+}
+
+:where(.avdeb--carousel) :where(.avdeb__items:focus-visible) {
+    outline: 2px solid var(--avdeb-accent);
+    outline-offset: 2px;
+    border-radius: var(--avdeb-radius);
+}
+
+:where(.avdeb--carousel) :where(.avdeb__item) {
+    scroll-snap-align: start;
+}
+
+@container avdeb (max-width: 46rem) {
+    :where(.avdeb--carousel) :where(.avdeb__items) {
+        grid-auto-columns: calc((100% - var(--avdeb-gap)) / 2.2);
+    }
+}
+
+@container avdeb (max-width: 30rem) {
+    :where(.avdeb--carousel) :where(.avdeb__items) {
+        grid-auto-columns: 78%;
+    }
+}
+
+:where(.avdeb--list) :where(.avdeb__items) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+}
+
+/* Spotlight: the first product spans the row as a featured card. */
+:where(.avdeb--spotlight) :where(.avdeb__item:first-child) {
+    grid-column: 1 / -1;
+}
+
+/* Single product */
+:where(.avdeb--single) :where(.avdeb__items) {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+:where(.avdeb--card) :where(.avdeb__items) {
+    max-inline-size: 22rem;
+}
+
+/* ── Card ───────────────────────────────────────────────────────────────── */
+:where(.avdeb-card) {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    inline-size: 100%;
+    margin: 0;
+    background: var(--avdeb-card-bg);
+    border-radius: var(--avdeb-radius);
+    transition:
+        transform 0.35s var(--avdeb-ease),
+        box-shadow 0.35s var(--avdeb-ease),
+        border-color 0.2s;
+}
+
+:where(.avdeb--elevated) :where(.avdeb-card) {
+    border: 1px solid var(--avdeb-border-soft);
+    box-shadow: var(--avdeb-shadow);
+}
+
+:where(.avdeb--outline) :where(.avdeb-card) {
+    border: 1px solid var(--avdeb-border);
+}
+
+:where(.avdeb--minimal) :where(.avdeb-card) {
+    background: transparent;
+    --avdeb-pad: 0.75rem 0.15rem 0.25rem;
+}
+
+@media (hover: hover) {
+    :where(.avdeb--elevated) :where(.avdeb-card:hover) {
+        transform: translateY(-4px);
+        box-shadow: var(--avdeb-shadow-hover);
+    }
+
+    :where(.avdeb--outline) :where(.avdeb-card:hover) {
+        border-color: var(--avdeb-accent);
+    }
+
+    :where(.avdeb--minimal)
+        :where(.avdeb-card:hover)
+        :where(.avdeb-card__link) {
+        --avdeb-link-deco: underline;
+        text-underline-offset: 0.2em;
+    }
+
+    :where(.avdeb-card:hover) :where(.avdeb-card__media img) {
+        transform: scale(1.045);
+    }
+
+    :where(.avdeb-card:hover) :where(.avdeb-card__cta svg) {
+        transform: translateX(3px);
+    }
+}
+
+:where(.avdeb-card__media) {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: var(--avdeb-ratio);
+    overflow: hidden;
+    background: var(--avdeb-media-bg);
+    border-radius: 0;
+    border-start-start-radius: calc(var(--avdeb-radius) - 1px);
+    border-start-end-radius: calc(var(--avdeb-radius) - 1px);
+}
+
+:where(.avdeb--minimal) :where(.avdeb-card__media) {
+    border-radius: var(--avdeb-radius);
+}
+
+:where(.avdeb-card__media img) {
+    transition: transform 0.7s var(--avdeb-ease);
+}
+
+:where(.avdeb-card__placeholder) {
+    opacity: 0.35;
+}
+
+:where(.avdeb-card__badges) {
+    position: absolute;
+    inset-block-start: 0.65rem;
+    inset-inline-start: 0.65rem;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    pointer-events: none;
+}
+
+:where(.avdeb-badge) {
+    padding: 0.38em 0.65em;
+    border-radius: 999px;
+    background: var(--avdeb-badge-bg);
+    color: var(--avdeb-badge-text);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    text-transform: uppercase;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.14);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+:where(.avdeb-badge--sale) {
+    background: var(--avdeb-accent);
+    color: var(--avdeb-accent-contrast);
+}
+
+:where(.avdeb-badge--pick) {
+    background: #141414;
+    color: #fff;
+}
+
+:where(.avdeb-card__body) {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.7rem;
+    min-inline-size: 0;
+    padding: var(--avdeb-pad);
+}
+
+:where(.avdeb-card__main) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-inline-size: 0;
+}
+
+:where(.avdeb-card__by) {
+    color: var(--avdeb-muted, currentColor);
+    opacity: var(--avdeb-muted-opacity);
+    font-size: 0.8rem;
+    letter-spacing: 0.01em;
+}
+
+:where(.avdeb-card__title) {
+    display: -webkit-box;
+    overflow: hidden;
+    font-family: var(--avdeb-font-title);
+    font-weight: 600;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+:where(.avdeb-card__link) {
+    outline: none;
+}
+
+/* The title link covers the whole card: one tab stop, a meaningful link name. */
+:where(.avdeb-card__link)::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: var(--avdeb-radius);
+}
+
+:where(.avdeb-card__link:focus-visible)::after {
+    outline: 2px solid var(--avdeb-accent);
+    outline-offset: 3px;
+}
+
+:where(.avdeb-card__note) {
+    padding-inline-start: 0.85rem;
+    border-inline-start: 3px solid var(--avdeb-accent);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+:where(.avdeb-card__footer) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 0.75rem;
+    margin-block-start: auto;
+}
+
+:where(.avdeb-card__price) {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45em;
+    font-size: 1.02rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+:where(.avdeb-card__price del) {
+    color: var(--avdeb-muted, currentColor);
+    opacity: var(--avdeb-muted-opacity);
+    font-size: 0.85em;
+    font-weight: 500;
+    text-decoration-thickness: 1px;
+}
+
+:where(.avdeb-card__cta) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    color: var(--avdeb-accent-text);
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ── List layout: compact "shop the post" rows (after the base card rules) ── */
+:where(.avdeb--list) :where(.avdeb-card) {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.7rem;
+}
+
+:where(.avdeb--list) :where(.avdeb-card__media) {
+    flex: 0 0 clamp(4.25rem, 16cqi, 6.5rem);
+    border-radius: calc(var(--avdeb-radius) - 4px);
+}
+
+:where(.avdeb--list) :where(.avdeb-card__body) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    padding: 0;
+}
+
+:where(.avdeb--list) :where(.avdeb-card__main) {
+    flex: 1 1 12rem;
+}
+
+:where(.avdeb--list) :where(.avdeb-card__footer) {
+    flex: 0 1 auto;
+    max-inline-size: 100%;
+    margin-block-start: 0;
+    gap: 0.4rem 1rem;
+}
+
+:where(.avdeb--list) :where(.avdeb-card__badges) {
+    inset-block-start: 0.35rem;
+    inset-inline-start: 0.35rem;
+}
+
+:where(.avdeb--list) :where(.avdeb-badge) {
+    font-size: 0.6rem;
+}
+
+@media (hover: hover) {
+    :where(.avdeb--list.avdeb--elevated) :where(.avdeb-card:hover) {
+        transform: translateY(-2px);
+    }
+}
+
+/* ── Featured card (spotlight first item, horizontal & hero products) ──── */
+:where(.avdeb-card--featured) {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    align-items: stretch;
+    min-block-size: clamp(17rem, 38cqi, 25rem);
+}
+
+/* The image fills its column (cover) instead of forcing a tall square. */
+:where(.avdeb-card--featured) :where(.avdeb-card__media) {
+    aspect-ratio: auto;
+    block-size: 100%;
+    min-block-size: 14rem;
+    border-radius: 0;
+    border-start-start-radius: calc(var(--avdeb-radius) - 1px);
+    border-end-start-radius: calc(var(--avdeb-radius) - 1px);
+}
+
+:where(.avdeb--minimal)
+    :where(.avdeb-card--featured)
+    :where(.avdeb-card__media) {
+    border-radius: var(--avdeb-radius);
+}
+
+:where(.avdeb-card--featured) :where(.avdeb-card__media img) {
+    position: absolute;
+    inset: 0;
+}
+
+:where(.avdeb-card--featured) :where(.avdeb-card__body) {
+    justify-content: center;
+    gap: 1.1rem;
+    padding: clamp(1.1rem, 3cqi, 2rem);
+}
+
+:where(.avdeb-card--featured) :where(.avdeb-card__title) {
+    --avdeb-title-size: clamp(1.15rem, 0.9rem + 1.6cqi, 1.6rem);
+    --avdeb-title-leading: 1.25;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
+
+:where(.avdeb-card--featured) :where(.avdeb-card__footer) {
+    margin-block-start: 0;
+}
+
+:where(.avdeb-card--featured, .avdeb--list .avdeb-card)
+    :where(.avdeb-card__cta) {
+    padding: 0.7em 1.15em;
+    border-radius: 999px;
+    background: var(--avdeb-accent);
+    color: var(--avdeb-accent-contrast);
+    box-shadow: 0 8px 20px -10px var(--avdeb-accent);
+}
+
+:where(.avdeb--list .avdeb-card) :where(.avdeb-card__cta) {
+    padding: 0.55em 0.95em;
+    font-size: 0.82rem;
+    box-shadow: none;
+}
+
+/* Tight list rows: the CTA becomes a round arrow button (the whole row is the link). */
+@container avdeb (max-width: 30rem) {
+    :where(.avdeb--list) :where(.avdeb-card__cta-label) {
+        display: none;
+    }
+
+    :where(.avdeb--list .avdeb-card) :where(.avdeb-card__cta) {
+        display: grid;
+        place-items: center;
+        inline-size: 2.1rem;
+        block-size: 2.1rem;
+        padding: 0;
+    }
+}
+
+:where(.avdeb-card--hero) {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    min-block-size: clamp(20rem, 48cqi, 32rem);
+}
+
+:where(.avdeb-card--hero) :where(.avdeb-card__title) {
+    --avdeb-title-size: clamp(1.35rem, 1rem + 2.4cqi, 2.15rem);
+    letter-spacing: -0.015em;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+}
+
+:where(.avdeb-card--hero) :where(.avdeb-card__price) {
+    font-size: 1.25rem;
+}
+
+:where(.avdeb--minimal) :where(.avdeb-card--featured) {
+    gap: 1.25rem;
+}
+
+@container avdeb (max-width: 34rem) {
+    :where(.avdeb-card--featured, .avdeb-card--hero) {
+        grid-template-columns: minmax(0, 1fr);
+        min-block-size: 0;
+    }
+
+    :where(.avdeb-card--featured) :where(.avdeb-card__media) {
+        aspect-ratio: var(--avdeb-ratio);
+        block-size: auto;
+        min-block-size: 0;
+        border-radius: 0;
+        border-start-start-radius: calc(var(--avdeb-radius) - 1px);
+        border-start-end-radius: calc(var(--avdeb-radius) - 1px);
+    }
+}
+
+/* ── Disclosure ─────────────────────────────────────────────────────────── */
+/* Narrow cards (e.g. 4 columns): stack price and CTA so every card lines up. */
+@container avdeb-item (max-width: 17rem) {
+    :where(.avdeb-card:not(.avdeb-card--featured))
+        :where(.avdeb-card__footer) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+    }
+}
+
+:where(.avdeb__disclosure) {
+    display: flex;
+    align-items: center;
+    gap: 0.45em;
+    color: var(--avdeb-muted, currentColor);
+    opacity: var(--avdeb-muted-opacity);
+    font-size: 0.78rem;
+    line-height: 1.4;
+}
+
+:where(.avdeb__disclosure svg) {
+    flex: none;
+}
+
+/* ── Guard against article / prose styles ───────────────────────────────── */
+/* Embeds live inside post bodies, whose themes style bare elements (`.prose img { margin }`,
+   `.entry-content a { text-decoration: underline }`, `article h3 { font-size }`, global
+   `img { height: auto }`). Those beat the zero-specificity :where() rules above and break the
+   cards: cropped photos, huge underlined titles, indented grids. So these layout-critical resets
+   use real class specificity (0,3,x). Restyle them with the --avdeb-* properties (title/heading
+   size, items margin/padding, link decoration) or a selector of higher specificity. */
+.avdeb .avdeb__items[role="list"] {
+    margin: var(--avdeb-items-margin);
+    padding: var(--avdeb-items-pad);
+    list-style: none;
+}
+
+.avdeb .avdeb__items .avdeb__item {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.avdeb .avdeb__items .avdeb__item::marker {
+    content: none;
+}
+
+.avdeb .avdeb-card .avdeb-card__media img {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: none;
+    block-size: 100%;
+    max-block-size: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    object-fit: cover;
+}
+
+.avdeb .avdeb__header .avdeb__heading {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: inherit;
+    font-size: var(--avdeb-heading-size);
+    line-height: 1.2;
+}
+
+.avdeb .avdeb-card .avdeb-card__title {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: inherit;
+    font-size: var(--avdeb-title-size);
+    line-height: var(--avdeb-title-leading);
+}
+
+.avdeb .avdeb-card .avdeb-card__link,
+.avdeb .avdeb__tools .avdeb__all {
+    background: none;
+    font-weight: inherit;
+    text-decoration-line: var(--avdeb-link-deco, none);
+}
+
+.avdeb .avdeb-card .avdeb-card__link {
+    color: inherit;
+}
+
+.avdeb .avdeb__tools .avdeb__all {
+    color: var(--avdeb-accent-text);
+    font-weight: 600;
+}
+
+.avdeb .avdeb-card :is(.avdeb-card__by, .avdeb-card__price) {
+    margin: 0;
+}
+
+.avdeb .avdeb-card .avdeb-card__note {
+    margin: 0.4rem 0 0;
+}
+
+.avdeb .avdeb__header .avdeb__intro {
+    margin: 0.4rem 0 0;
+}
+
+.avdeb > .avdeb__disclosure.avdeb__disclosure {
+    margin: 1.1rem 0 0;
+}
+
+/* ── Motion & print ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    :where(.avdeb) :where(*) {
+        transition: none !important;
+    }
+
+    :where(.avdeb-card:hover),
+    :where(.avdeb-card:hover) :where(img) {
+        transform: none !important;
+    }
+}
+
+@media print {
+    :where(.avdeb__nav) {
+        display: none;
+    }
+
+    :where(.avdeb-card) {
+        box-shadow: none;
+        break-inside: avoid;
+    }
+}
+
+/* ── Joomla template theme ─────────────────────────────────────────────── */
+:where(.avdeb[data-theme="site"]) {
+    --avdeb-accent: var(--cassiopeia-color-primary, var(--bs-primary, #3b6548));
+}
+
+/* ── Button ({avdeb-button}) ───────────────────────────────────────────── */
+:where(.avdeb-cta) {
+    --avdeb-accent: #3b6548;
+    --avdeb-accent-contrast: #fff;
+    display: flex;
+    margin-block: 1.75em;
+}
+
+:where(.avdeb-cta--center) {
+    justify-content: center;
+}
+
+:where(.avdeb-cta--end) {
+    justify-content: flex-end;
+}
+
+:where(.avdeb-btn) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    padding: 0.85em 1.4em;
+    border: 1.5px solid var(--avdeb-accent);
+    border-radius: 999px;
+    font: inherit;
+    line-height: 1.1;
+    transition:
+        transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.2s,
+        background-color 0.2s,
+        color 0.2s;
+}
+
+:where(.avdeb-btn svg) {
+    flex: none;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:where(.avdeb-btn:hover) :where(svg) {
+    transform: translateX(3px);
+}
+
+:where(.avdeb-btn:dir(rtl)) :where(svg) {
+    scale: -1 1;
+}
+
+:where(.avdeb-btn:focus-visible) {
+    outline: 2px solid var(--avdeb-accent);
+    outline-offset: 3px;
+}
+
+:where(.avdeb-btn--solid) {
+    --avdeb-btn-bg: var(--avdeb-accent);
+    --avdeb-btn-color: var(--avdeb-accent-contrast);
+    box-shadow: 0 10px 24px -12px var(--avdeb-accent);
+}
+
+:where(.avdeb-btn--solid:hover) {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px -12px var(--avdeb-accent);
+}
+
+:where(.avdeb-btn--outline:hover) {
+    --avdeb-btn-bg: var(--avdeb-accent);
+    --avdeb-btn-color: var(--avdeb-accent-contrast);
+}
+
+:where(.avdeb-btn--link) {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+}
+
+:where(.avdeb-btn--link:hover) {
+    --avdeb-link-deco: underline;
+    text-underline-offset: 0.2em;
+}
+
+/* Guard: post-body styles like `.entry-content a { color; text-decoration: underline }` would
+   otherwise recolour and underline the button. Real specificity (0,3,0); restyle via the
+   --avdeb-btn-bg / --avdeb-btn-color / --avdeb-accent custom properties. */
+.avdeb-cta > .avdeb-btn[href] {
+    background: var(--avdeb-btn-bg, transparent);
+    color: var(--avdeb-btn-color, var(--avdeb-accent));
+    font-weight: 600;
+    text-decoration-line: var(--avdeb-link-deco, none);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :where(.avdeb-btn, .avdeb-btn svg) {
+        transition: none;
+    }
+
+    :where(.avdeb-btn:hover, .avdeb-btn:hover svg) {
+        transform: none;
+    }
+}
+
+/* Buttons follow the template's primary colour too (an inline --avdeb-accent still wins). */
+:where(.avdeb-cta) {
+    --avdeb-accent: var(--cassiopeia-color-primary, var(--bs-primary, #3b6548));
+}

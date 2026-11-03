@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="library" method="upgrade">
+	<name>AVDEB Products Library</name>
+	<libraryname>avdeb</libraryname>
+	<author>AVDEB</author>
+	<creationDate>2026-11</creationDate>
+	<copyright>(C) 2026 AVDEB</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorUrl>https://avdeb.com/developers/#joomla</authorUrl>
+	<version>0.1.0</version>
+	<description>Shared catalog client, cache, renderer and styles for the AVDEB Products extensions.</description>
+	<namespace path="src">Avdeb\Library</namespace>
+	<files>
+		<folder>src</folder>
+	</files>
+	<media destination="lib_avdeb" folder="media">
+		<folder>css</folder>
+		<folder>js</folder>
+		<filename>joomla.asset.json</filename>
+	</media>
+</extension>

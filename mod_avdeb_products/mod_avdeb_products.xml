@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" client="site" method="upgrade">
+	<name>mod_avdeb_products</name>
+	<author>AVDEB</author>
+	<creationDate>2026-11</creationDate>
+	<copyright>(C) 2026 AVDEB</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorUrl>https://avdeb.com/developers/#joomla</authorUrl>
+	<version>0.1.0</version>
+	<description>MOD_AVDEB_PRODUCTS_XML_DESCRIPTION</description>
+	<namespace path="src">Avdeb\Module\AvdebProducts</namespace>
+	<files>
+		<folder module="mod_avdeb_products">services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+		<folder>language</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/mod_avdeb_products.ini</language>
+		<language tag="en-GB">en-GB/mod_avdeb_products.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="mode" type="list" label="MOD_AVDEB_PRODUCTS_FIELD_MODE_LABEL" default="collection" validate="options">
+					<option value="collection">MOD_AVDEB_PRODUCTS_MODE_COLLECTION</option>
+					<option value="product">MOD_AVDEB_PRODUCTS_MODE_PRODUCT</option>
+				</field>
+				<field
+					name="link"
+					type="text"
+					label="MOD_AVDEB_PRODUCTS_FIELD_LINK_LABEL"
+					description="MOD_AVDEB_PRODUCTS_FIELD_LINK_DESC"
+					hint="https://avdeb.com/creators/your-shop/"
+					filter="string"
+					maxlength="300"
+				/>
+				<field name="source" type="list" label="MOD_AVDEB_PRODUCTS_FIELD_SOURCE_LABEL" default="auto" validate="options" showon="mode:collection">
+					<option value="auto">MOD_AVDEB_PRODUCTS_SOURCE_AUTO</option>
+					<option value="creator">MOD_AVDEB_PRODUCTS_SOURCE_CREATOR</option>
+					<option value="tag">MOD_AVDEB_PRODUCTS_SOURCE_TAG</option>
+					<option value="type">MOD_AVDEB_PRODUCTS_SOURCE_TYPE</option>
+					<option value="search">MOD_AVDEB_PRODUCTS_SOURCE_SEARCH</option>
+					<option value="newest">MOD_AVDEB_PRODUCTS_SOURCE_NEWEST</option>
+				</field>
+				<field name="limit" type="number" label="MOD_AVDEB_PRODUCTS_FIELD_LIMIT_LABEL" description="MOD_AVDEB_PRODUCTS_FIELD_LIMIT_DESC" default="6" min="1" max="48" filter="integer" showon="mode:collection" />
+				<field name="intro" type="textarea" label="MOD_AVDEB_PRODUCTS_FIELD_INTRO_LABEL" rows="2" maxlength="400" filter="string" showon="mode:collection" />
+				<field name="view_all" type="radio" layout="joomla.form.field.radio.switcher" label="MOD_AVDEB_PRODUCTS_FIELD_VIEW_ALL_LABEL" default="1" filter="integer" showon="mode:collection">
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+				<field name="variant" type="list" label="MOD_AVDEB_PRODUCTS_FIELD_VARIANT_LABEL" default="horizontal" validate="options" showon="mode:product">
+					<option value="horizontal">MOD_AVDEB_PRODUCTS_VARIANT_HORIZONTAL</option>
+					<option value="hero">MOD_AVDEB_PRODUCTS_VARIANT_HERO</option>
+					<option value="card">MOD_AVDEB_PRODUCTS_VARIANT_CARD</option>
+				</field>
+				<field name="badge" type="text" label="MOD_AVDEB_PRODUCTS_FIELD_BADGE_LABEL" hint="Editor's pick" maxlength="40" filter="string" showon="mode:product" />
+				<field name="note" type="textarea" label="MOD_AVDEB_PRODUCTS_FIELD_NOTE_LABEL" rows="3" maxlength="600" filter="string" showon="mode:product" />
+			</fieldset>
+			<fieldset name="display" label="MOD_AVDEB_PRODUCTS_FIELDSET_DISPLAY" description="MOD_AVDEB_PRODUCTS_FIELDSET_DISPLAY_DESC">
+				<field name="embed_layout" type="list" label="MOD_AVDEB_PRODUCTS_FIELD_LAYOUT_LABEL" default="" showon="mode:collection">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="grid">MOD_AVDEB_PRODUCTS_LAYOUT_GRID</option>
+					<option value="carousel">MOD_AVDEB_PRODUCTS_LAYOUT_CAROUSEL</option>
+					<option value="list">MOD_AVDEB_PRODUCTS_LAYOUT_LIST</option>
+					<option value="spotlight">MOD_AVDEB_PRODUCTS_LAYOUT_SPOTLIGHT</option>
+				</field>
+				<field name="columns" type="list" label="MOD_AVDEB_PRODUCTS_FIELD_COLUMNS_LABEL" default="" showon="mode:collection">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+				</field>
+				<field name="card_style" type="list" label="MOD_AVDEB_PRODUCTS_FIELD_CARD_STYLE_LABEL" default="">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="elevated">MOD_AVDEB_PRODUCTS_CARD_ELEVATED</option>
+					<option value="outline">MOD_AVDEB_PRODUCTS_CARD_OUTLINE</option>
+					<option value="minimal">MOD_AVDEB_PRODUCTS_CARD_MINIMAL</option>
+				</field>
+				<field name="theme" type="list" label="MOD_AVDEB_PRODUCTS_FIELD_THEME_LABEL" default="">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="site">MOD_AVDEB_PRODUCTS_THEME_SITE</option>
+					<option value="light">MOD_AVDEB_PRODUCTS_THEME_LIGHT</option>
+					<option value="dark">MOD_AVDEB_PRODUCTS_THEME_DARK</option>
+					<option value="auto">MOD_AVDEB_PRODUCTS_THEME_AUTO</option>
+				</field>
+				<field name="cta_label" type="text" label="MOD_AVDEB_PRODUCTS_FIELD_CTA_LABEL" hint="JGLOBAL_USE_GLOBAL" maxlength="40" filter="string" />
+				<field name="show_price" type="list" label="MOD_AVDEB_PRODUCTS_FIELD_SHOW_PRICE_LABEL" default="">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+				</field>
+				<field name="show_creator" type="list" label="MOD_AVDEB_PRODUCTS_FIELD_SHOW_CREATOR_LABEL" default="">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+				</field>
+			</fieldset>
+			<fieldset name="advanced">
+				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" class="form-select" validate="moduleLayout" />
+				<field name="moduleclass_sfx" type="textarea" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" rows="3" validate="CssIdentifier" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

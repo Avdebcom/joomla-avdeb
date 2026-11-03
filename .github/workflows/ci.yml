@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.1', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: intl, mbstring, zip
+          coverage: none
+      - name: PHP syntax
+        run: find . -name '*.php' -not -path './dist/*' -print0 | xargs -0 -n1 php -l
+      - name: Tests
+        run: php tests/run.php
+      - name: Build package
+        run: php build.php
+      - uses: actions/upload-artifact@v4
+        if: matrix.php == '8.3'
+        with:
+          name: pkg_avdeb
+          path: dist/*.zip

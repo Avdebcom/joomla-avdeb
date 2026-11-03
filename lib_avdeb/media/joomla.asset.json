@@ -1,0 +1,30 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "lib_avdeb",
+  "version": "0.1.0",
+  "description": "AVDEB Products",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "lib_avdeb.embed",
+      "type": "style",
+      "uri": "lib_avdeb/avdeb.css"
+    },
+    {
+      "name": "lib_avdeb.embed",
+      "type": "script",
+      "uri": "lib_avdeb/avdeb.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "lib_avdeb.embed",
+      "type": "preset",
+      "dependencies": [
+        "lib_avdeb.embed#style",
+        "lib_avdeb.embed#script"
+      ]
+    }
+  ]
+}

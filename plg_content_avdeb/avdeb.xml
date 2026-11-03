@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="content" method="upgrade">
+	<name>plg_content_avdeb</name>
+	<author>AVDEB</author>
+	<creationDate>2026-11</creationDate>
+	<copyright>(C) 2026 AVDEB</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorUrl>https://avdeb.com/developers/#joomla</authorUrl>
+	<version>0.1.0</version>
+	<description>PLG_CONTENT_AVDEB_XML_DESCRIPTION</description>
+	<namespace path="src">Avdeb\Plugin\Content\Avdeb</namespace>
+	<files>
+		<folder plugin="avdeb">services</folder>
+		<folder>src</folder>
+		<folder>language</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/plg_content_avdeb.ini</language>
+		<language tag="en-GB">en-GB/plg_content_avdeb.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params" addfieldprefix="Avdeb\Plugin\Content\Avdeb\Field">
+			<fieldset name="basic" label="PLG_CONTENT_AVDEB_FIELDSET_CONNECTION">
+				<field name="status" type="status" label="PLG_CONTENT_AVDEB_FIELD_STATUS_LABEL" hiddenLabel="true" />
+				<field
+					name="api_key"
+					type="password"
+					label="PLG_CONTENT_AVDEB_FIELD_API_KEY_LABEL"
+					description="PLG_CONTENT_AVDEB_FIELD_API_KEY_DESC"
+					autocomplete="off"
+					filter="string"
+					hint="avdeb_sk_…"
+				/>
+				<field
+					name="ref_code"
+					type="text"
+					label="PLG_CONTENT_AVDEB_FIELD_REF_CODE_LABEL"
+					description="PLG_CONTENT_AVDEB_FIELD_REF_CODE_DESC"
+					filter="cmd"
+					maxlength="40"
+				/>
+				<field
+					name="show_disclosure"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_CONTENT_AVDEB_FIELD_SHOW_DISCLOSURE_LABEL"
+					description="PLG_CONTENT_AVDEB_FIELD_SHOW_DISCLOSURE_DESC"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="disclosure_text"
+					type="textarea"
+					label="PLG_CONTENT_AVDEB_FIELD_DISCLOSURE_TEXT_LABEL"
+					default="As an AVDEB affiliate, I earn a commission from qualifying purchases."
+					maxlength="300"
+					rows="2"
+					filter="string"
+					showon="show_disclosure:1"
+				/>
+			</fieldset>
+			<fieldset name="display" label="PLG_CONTENT_AVDEB_FIELDSET_DISPLAY" description="PLG_CONTENT_AVDEB_FIELDSET_DISPLAY_DESC">
+				<field name="layout" type="list" label="PLG_CONTENT_AVDEB_FIELD_LAYOUT_LABEL" default="grid" validate="options">
+					<option value="grid">PLG_CONTENT_AVDEB_LAYOUT_GRID</option>
+					<option value="carousel">PLG_CONTENT_AVDEB_LAYOUT_CAROUSEL</option>
+					<option value="list">PLG_CONTENT_AVDEB_LAYOUT_LIST</option>
+					<option value="spotlight">PLG_CONTENT_AVDEB_LAYOUT_SPOTLIGHT</option>
+				</field>
+				<field name="columns" type="number" label="PLG_CONTENT_AVDEB_FIELD_COLUMNS_LABEL" default="3" min="1" max="6" filter="integer" />
+				<field name="card_style" type="list" label="PLG_CONTENT_AVDEB_FIELD_CARD_STYLE_LABEL" default="elevated" validate="options">
+					<option value="elevated">PLG_CONTENT_AVDEB_CARD_ELEVATED</option>
+					<option value="outline">PLG_CONTENT_AVDEB_CARD_OUTLINE</option>
+					<option value="minimal">PLG_CONTENT_AVDEB_CARD_MINIMAL</option>
+				</field>
+				<field name="theme" type="list" label="PLG_CONTENT_AVDEB_FIELD_THEME_LABEL" description="PLG_CONTENT_AVDEB_FIELD_THEME_DESC" default="site" validate="options">
+					<option value="site">PLG_CONTENT_AVDEB_THEME_SITE</option>
+					<option value="light">PLG_CONTENT_AVDEB_THEME_LIGHT</option>
+					<option value="dark">PLG_CONTENT_AVDEB_THEME_DARK</option>
+					<option value="auto">PLG_CONTENT_AVDEB_THEME_AUTO</option>
+				</field>
+				<field name="accent_color" type="color" label="PLG_CONTENT_AVDEB_FIELD_ACCENT_LABEL" description="PLG_CONTENT_AVDEB_FIELD_ACCENT_DESC" default="" />
+				<field name="radius" type="number" label="PLG_CONTENT_AVDEB_FIELD_RADIUS_LABEL" default="16" min="0" max="32" filter="integer" />
+				<field name="image_ratio" type="list" label="PLG_CONTENT_AVDEB_FIELD_IMAGE_RATIO_LABEL" default="square" validate="options">
+					<option value="square">PLG_CONTENT_AVDEB_RATIO_SQUARE</option>
+					<option value="portrait">PLG_CONTENT_AVDEB_RATIO_PORTRAIT</option>
+					<option value="landscape">PLG_CONTENT_AVDEB_RATIO_LANDSCAPE</option>
+				</field>
+				<field name="cta_label" type="text" label="PLG_CONTENT_AVDEB_FIELD_CTA_LABEL" default="View product" maxlength="40" filter="string" />
+				<field name="show_price" type="radio" layout="joomla.form.field.radio.switcher" label="PLG_CONTENT_AVDEB_FIELD_SHOW_PRICE_LABEL" default="1" filter="integer">
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+				<field name="show_creator" type="radio" layout="joomla.form.field.radio.switcher" label="PLG_CONTENT_AVDEB_FIELD_SHOW_CREATOR_LABEL" default="1" filter="integer">
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+				<field name="show_badges" type="radio" layout="joomla.form.field.radio.switcher" label="PLG_CONTENT_AVDEB_FIELD_SHOW_BADGES_LABEL" default="1" filter="integer">
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+				<field name="new_tab" type="radio" layout="joomla.form.field.radio.switcher" label="PLG_CONTENT_AVDEB_FIELD_NEW_TAB_LABEL" default="0" filter="integer">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="cache_minutes"
+					type="number"
+					label="PLG_CONTENT_AVDEB_FIELD_CACHE_LABEL"
+					description="PLG_CONTENT_AVDEB_FIELD_CACHE_DESC"
+					default="360"
+					min="5"
+					max="2880"
+					filter="integer"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
