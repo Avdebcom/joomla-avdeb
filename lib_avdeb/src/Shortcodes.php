@@ -8,6 +8,10 @@
 
 namespace Avdeb\Library;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Finds `{avdeb-products …}`, `{avdeb-product …}` and `{avdeb-button …}` tags in article text — the
  * Joomla `{loadmodule …}` style — and replaces them. Pure.

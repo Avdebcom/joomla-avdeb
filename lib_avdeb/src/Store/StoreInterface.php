@@ -8,6 +8,10 @@
 
 namespace Avdeb\Library\Store;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /** Minimal key/value store for the catalog client (Joomla cache in production, an array in tests). */
 interface StoreInterface
 {

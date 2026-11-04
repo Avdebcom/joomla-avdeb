@@ -8,6 +8,10 @@
 
 namespace Avdeb\Library;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * AVDEB catalog API contract: query sanitising, response validation, link helpers.
  * PHP port of emdash-plugin-avdeb/src/catalog.ts. Pure: no Joomla calls, safe to unit-test.
@@ -30,7 +34,7 @@ final class Catalog
     public const MAX_LIMIT_SECRET    = 48;
     public const DEFAULT_LIMIT       = 6;
 
-    private const CONTROL_RE  = '/[\x00-\x1f\x7f]+/';
+    private const CONTROL_RE  = '/[[:cntrl:]]+/';
     private const CURRENCY_RE = '/^[A-Z]{3}$/';
 
     public static function str(mixed $value): string
@@ -99,7 +103,7 @@ final class Catalog
 
     public static function isAvdebUrl(mixed $url): bool
     {
-        if (!\is_string($url) || $url === '' || preg_match('/[\s\x00-\x1f\x7f"\'<>\\\\]/', $url)) {
+        if (!\is_string($url) || $url === '' || preg_match('/[\s[:cntrl:]"\'<>\\\\]/', $url)) {
             return false;
         }
 

@@ -8,6 +8,10 @@
 
 namespace Avdeb\Library;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Products + options → ready-to-print card view models. Port of view.ts. Pure.
  */

@@ -8,6 +8,10 @@
 
 namespace Avdeb\Library;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Site-wide settings, stored as the "Content - AVDEB Products" plugin's parameters (Extensions →
  * Plugins). The module and editor button read the same settings. Pure.

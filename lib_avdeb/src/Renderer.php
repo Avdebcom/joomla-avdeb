@@ -8,6 +8,10 @@
 
 namespace Avdeb\Library;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML for every layout — grid, carousel, list, spotlight — the single-product variants (card /
  * horizontal / hero) and the button. Same markup and BEM classes as emdash-plugin-avdeb's Embed.astro,

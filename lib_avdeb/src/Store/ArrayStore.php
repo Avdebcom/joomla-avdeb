@@ -8,6 +8,10 @@
 
 namespace Avdeb\Library\Store;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /** In-memory store (tests, or a request-local fallback when the Joomla cache can't be written). */
 final class ArrayStore implements StoreInterface
 {

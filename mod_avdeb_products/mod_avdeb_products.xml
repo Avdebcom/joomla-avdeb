@@ -6,7 +6,7 @@
 	<copyright>(C) 2026 AVDEB</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorUrl>https://avdeb.com/developers/#joomla</authorUrl>
-	<version>0.1.0</version>
+	<version>0.1.1</version>
 	<description>MOD_AVDEB_PRODUCTS_XML_DESCRIPTION</description>
 	<namespace path="src">Avdeb\Module\AvdebProducts</namespace>
 	<files>

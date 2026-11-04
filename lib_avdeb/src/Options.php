@@ -8,6 +8,10 @@
 
 namespace Avdeb\Library;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Embed options: what one shortcode / module shows and how. Site-wide display defaults come from the
  * content plugin's settings; every embed can override them. Port of config.ts (Wix/Squarespace) and

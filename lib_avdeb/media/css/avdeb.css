@@ -45,6 +45,11 @@
     font: inherit;
 }
 
+/* In a module the embed is the whole content: the article spacing would leave a gap under the title. */
+:where(.mod-avdeb-products) > :where(.avdeb, .avdeb-cta) {
+    margin-block: 0;
+}
+
 @supports (color: color-mix(in srgb, red 50%, blue)) {
     :where(.avdeb) {
         --avdeb-card-bg: color-mix(in srgb, currentColor 3.5%, transparent);
